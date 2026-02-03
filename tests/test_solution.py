@@ -1,5 +1,5 @@
-## Student Name:
-## Student ID: 
+## Student Name: Matthew Magagna
+## Student ID: 219804921
 
 """
 Public test suite for the meeting slot suggestion exercise.
@@ -46,3 +46,58 @@ def test_non_dict_request_raises():
         is_allocation_feasible(resources, requests)
 
 """TODO: Add at least 5 additional test cases to test your implementation."""
+
+def test_exact_capacity_boundary():
+    # Exact Capacity Boundary
+    # Constraint: total demand == capacity should be feasible
+    resources = {'cpu': 5}
+    requests = [{'cpu': 2}, {'cpu': 3}]
+    assert is_allocation_feasible(resources, requests) is True
+
+
+def test_empty_requests_feasible():
+    # Empty Requests
+    # Constraint: no demand should always be feasible
+    resources = {'cpu': 0, 'mem': 10}
+    requests = []
+    assert is_allocation_feasible(resources, requests) is True
+
+
+def test_request_missing_some_resources_ok():
+    # Request Missing Some Resources
+    # Constraint: missing keys imply 0 usage of that resource
+    resources = {'cpu': 4, 'mem': 10}
+    requests = [{'cpu': 2}, {'mem': 5}]
+    assert is_allocation_feasible(resources, requests) is True
+
+
+def test_negative_request_infeasible():
+    # Negative Request
+    # Constraint: negative resource amounts should be infeasible
+    resources = {'cpu': 5}
+    requests = [{'cpu': -1}]
+    assert is_allocation_feasible(resources, requests) is False
+
+
+def test_negative_capacity_infeasible():
+    # Negative Capacity
+    # Constraint: capacity cannot be negative
+    resources = {'cpu': -5}
+    requests = [{'cpu': 1}]
+    assert is_allocation_feasible(resources, requests) is False
+
+
+def test_float_amounts_supported():
+    # Float Amounts Supported
+    # Constraint: should work with floats reasonably
+    resources = {'cpu': 1.0}
+    requests = [{'cpu': 0.4}, {'cpu': 0.6}]
+    assert is_allocation_feasible(resources, requests) is True
+
+
+def test_amount_non_numeric_infeasible():
+    # Non-Numeric Amount
+    # Constraint: amounts should be int/float
+    resources = {'cpu': 5}
+    requests = [{'cpu': "2"}]
+    assert is_allocation_feasible(resources, requests) is False

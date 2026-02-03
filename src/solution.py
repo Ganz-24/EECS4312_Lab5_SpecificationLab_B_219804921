@@ -1,5 +1,5 @@
-## Student Name:
-## Student ID: 
+## Student Name: Matthew Magagna
+## Student ID: 219804921
 
 """
 Stub file for the is allocation feasible exercise.
