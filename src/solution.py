@@ -29,10 +29,10 @@ def is_allocation_feasible(
         True if the allocation is feasible, False otherwise.
 
     """
-    # TODO: Implement this function
 
-    # Basic validity checks on capacities and initialize totals
     totals: Dict[str, float] = {}
+
+    # Validate capacities and initialize totals
     for r_name, cap in resources.items():
         if not isinstance(cap, (int, float)):
             return False
@@ -40,13 +40,12 @@ def is_allocation_feasible(
             return False
         totals[r_name] = 0.0
 
-    # Accumulate all requests and ensure we never exceed capacity
+    # Validate and accumulate requests
     for req in requests:
         if not isinstance(req, dict):
-            return False
+            raise ValueError("Each request must be a dict.")
 
         for r_name, amount in req.items():
-            # Requesting a resource that doesn't exist in the capacity map is infeasible
             if r_name not in resources:
                 return False
             if not isinstance(amount, (int, float)):
@@ -55,8 +54,6 @@ def is_allocation_feasible(
                 return False
 
             totals[r_name] += float(amount)
-
-            # Early exit if capacity is exceeded
             if totals[r_name] > float(resources[r_name]):
                 return False
 
