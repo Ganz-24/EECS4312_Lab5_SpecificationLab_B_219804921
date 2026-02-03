@@ -8,7 +8,7 @@ Students can run these tests locally to check basic correctness of their impleme
 The hidden test suite used for grading contains additional edge cases and will not be
 available to students.
 """
-from solution import is_allocation_feasible
+from src.solution import is_allocation_feasible
 import pytest
 
 
