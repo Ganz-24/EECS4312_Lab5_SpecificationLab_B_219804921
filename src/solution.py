@@ -29,6 +29,7 @@ def is_allocation_feasible(
         True if the allocation is feasible, False otherwise.
 
     """
+    # TODO: Implement this function
 
     totals: Dict[str, float] = {}
 
@@ -46,15 +47,26 @@ def is_allocation_feasible(
             raise ValueError("Each request must be a dict.")
 
         for r_name, amount in req.items():
+            # Resource must exist
             if r_name not in resources:
                 return False
+            # Amount must be numeric and non-negative
             if not isinstance(amount, (int, float)):
                 return False
             if amount < 0:
                 return False
 
             totals[r_name] += float(amount)
+
+            # Capacity must not be exceeded
             if totals[r_name] > float(resources[r_name]):
                 return False
 
-    return True
+    # NEW REQUIREMENT:
+    # At least one resource must remain unallocated (some capacity left over)
+    # Allocation is invalid if ALL resources are fully consumed.
+    for r_name, cap in resources.items():
+        if totals.get(r_name, 0.0) < float(cap):
+            return True
+
+    return False
